@@ -1,109 +1,177 @@
-# API de Caballeros del Zodiaco 🦁
+# ⚔️ Caballeros del Zodiaco - Fullstack App 🦁
 
-Sistema de microservicios REST para gestionar información de los Caballeros del Zodiaco, desplegado online con documentación Swagger.
-
-## 📋 Descripción
-
-Este proyecto implementa una API REST que permite consultar e insertar datos de personajes de la serie "Caballeros del Zodiaco" en una base de datos relacional. Incluye 12 personajes iniciales preconfigurados.
+Aplicación fullstack moderna para gestionar información de los Caballeros del Zodiaco con Node.js, Express, PostgreSQL y React.
 
 ## 🎯 Características
 
-- ✅ Base de datos con mínimo 12 personajes de Caballeros del Zodiaco
-- ✅ Microservicio de consulta (GET)
-- ✅ Microservicio de inserción (POST)
-- ✅ Documentación interactiva con Swagger
-- ✅ Desplegado online
-- ✅ Campos: nombre, edad, altura, constelación, URL de imagen
+- ✅ **Backend REST API** con Node.js y Express
+- ✅ **Base de datos PostgreSQL** en Railway
+- ✅ **Frontend React** con diseño moderno
+- ✅ **Swagger documentation** integrada
+- ✅ **12 personajes pre-cargados** de Caballeros del Zodiaco
+- ✅ **CRUD completo**: Crear, Leer, Actualizar, Eliminar
+- ✅ **Responsive design** para móvil y desktop
+- ✅ **Despliegue automático** en Railway
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Stack Tecnológico
 
-- **Flask**: Framework web para Python
-- **Flask-SQLAlchemy**: ORM para gestión de base de datos
-- **Flask-Swagger-UI**: Interfaz de documentación API
-- **SQLite/PostgreSQL**: Base de datos relacional
-- **Gunicorn**: Servidor WSGI para producción
+### Backend
+- **Node.js** + **Express** - Servidor API
+- **PostgreSQL** - Base de datos relacional
+- **Swagger/OpenAPI** - Documentación
+- **CORS** - Acceso cruzado
 
-## 📦 Instalación Local
+### Frontend
+- **React** - Framework UI
+- **Axios** - HTTP client
+- **CSS3** - Estilos modernos
 
-### Requisitos Previos
-- Python 3.11 o superior
-- pip (gestor de paquetes de Python)
+### DevOps
+- **Railway** - Hosting y base de datos
+- **Git** - Control de versiones
 
-### Pasos de Instalación
+## 📋 Requisitos Previos
 
-1. Clonar el repositorio o descargar los archivos
-2. Instalar dependencias:
+- Node.js 16+ instalado
+- Cuenta en Railway (gratis)
+- Git instalado
+
+## 🚀 Instalación Local
+
+### 1. Clonar el repositorio
+
 ```bash
-pip install -r requirements.txt
+git clone <tu-repo-url>
+cd caballeros-zodiaco
 ```
 
-3. Ejecutar la aplicación:
+### 2. Instalar dependencias
+
+**Opción A: Automático (backend + frontend)**
 ```bash
-python app.py
+npm run install-all
 ```
 
-4. Acceder a la API:
-- API Principal: http://localhost:5000
-- Swagger UI: http://localhost:5000/api/docs
+**Opción B: Manual**
 
-## 🌐 Despliegue Online
-
-### Opción 1: Heroku (Recomendado)
-
-1. Crear cuenta en [Heroku](https://www.heroku.com/)
-2. Instalar Heroku CLI
-3. Login en Heroku:
+Backend:
 ```bash
-heroku login
+cd backend
+npm install
 ```
 
-4. Crear aplicación:
+Frontend:
 ```bash
-heroku create tu-app-nombre
+cd frontend
+npm install
 ```
 
-5. Desplegar:
+### 3. Configurar variables de entorno
+
+Backend - crea `backend/.env`:
+```env
+PORT=3000
+DATABASE_URL=postgresql://usuario:password@localhost:5432/caballeros
+NODE_ENV=development
+```
+
+Frontend - crea `frontend/.env`:
+```env
+REACT_APP_API_URL=http://localhost:3000
+```
+
+### 4. Ejecutar aplicación
+
+**Modo desarrollo (backend + frontend)**
+```bash
+npm run dev
+```
+
+**Solo backend**
+```bash
+npm run dev:backend
+```
+
+**Solo frontend**
+```bash
+npm run dev:frontend
+```
+
+### 5. Acceder a la aplicación
+
+- **Frontend:** http://localhost:3000
+- **API:** http://localhost:3000/api/caballeros
+- **Swagger:** http://localhost:3000/api-docs
+
+## 🌐 Despliegue en Railway
+
+Railway es la forma más fácil de desplegar esta aplicación.
+
+### Paso 1: Preparar repositorio
+
 ```bash
 git init
 git add .
-git commit -m "Initial commit"
-git push heroku main
+git commit -m "Initial commit: Caballeros del Zodiaco"
+git branch -M main
+git remote add origin https://github.com/TU-USUARIO/caballeros-zodiaco.git
+git push -u origin main
 ```
 
-6. Acceder a tu API:
+### Paso 2: Crear proyecto en Railway
+
+1. Ve a [railway.app](https://railway.app)
+2. Login with GitHub
+3. Click **"New Project"**
+4. Selecciona **"Deploy from GitHub repo"**
+5. Elige tu repositorio
+
+### Paso 3: Agregar PostgreSQL
+
+1. En tu proyecto, click **"+ New"**
+2. Selecciona **"Database"** → **"PostgreSQL"**
+3. Railway configura automáticamente `DATABASE_URL`
+
+### Paso 4: Configurar build
+
+1. Ve a tu servicio
+2. Settings → Deploy
+3. Build command: `cd backend && npm install`
+4. Start command: `cd backend && npm start`
+5. Root directory: (deja vacío)
+
+### Paso 5: Variables de entorno
+
+Railway agrega automáticamente:
+- ✅ `DATABASE_URL` (desde PostgreSQL)
+
+Agrega manualmente:
 ```
-https://tu-app-nombre.herokuapp.com
-https://tu-app-nombre.herokuapp.com/api/docs
+NODE_ENV=production
+PORT=3000
+SWAGGER_SERVER_URL=https://tu-app.railway.app
 ```
 
-### Opción 2: Railway
+### Paso 6: Verificar
 
-1. Crear cuenta en [Railway](https://railway.app/)
-2. Conectar con GitHub
-3. Crear nuevo proyecto desde repositorio
-4. Configurar variables de entorno si usas PostgreSQL
+Tu app estará en: `https://tu-app.railway.app`
 
-## 📚 Endpoints de la API
+## 📚 API Endpoints
 
 ### Documentación Swagger
-```
-GET /api/docs
-```
-Interfaz interactiva para probar todos los endpoints
 
-### Información Principal
 ```
-GET /
+GET /api-docs
 ```
-Muestra información general de la API
 
-### Microservicio de Consulta
+### Endpoints
 
 #### Obtener todos los caballeros
-```
+```http
 GET /api/caballeros
 ```
-**Respuesta:**
+
+Response:
 ```json
 {
   "total": 12,
@@ -114,108 +182,54 @@ GET /api/caballeros
       "edad": 13,
       "altura": 165.0,
       "constelacion": "Pegaso",
-      "imagen_url": "https://i.imgur.com/OvXjbxO.jpg"
+      "imagen_url": "https://..."
     }
   ]
 }
 ```
 
 #### Obtener caballero por ID
-```
-GET /api/caballeros/{id}
-```
-**Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Seiya de Pegaso",
-  "edad": 13,
-  "altura": 165.0,
-  "constelacion": "Pegaso",
-  "imagen_url": "https://i.imgur.com/OvXjbxO.jpg"
-}
+```http
+GET /api/caballeros/:id
 ```
 
-### Microservicio de Inserción
-
-#### Crear nuevo caballero
-```
+#### Crear caballero
+```http
 POST /api/caballeros
-```
-**Cuerpo (JSON):**
-```json
+Content-Type: application/json
+
 {
   "nombre": "Nuevo Caballero",
   "edad": 20,
   "altura": 180.0,
-  "constelacion": "Escorpio",
-  "imagen_url": "https://example.com/imagen.jpg"
-}
-```
-**Nota:** Los campos `nombre` e `imagen_url` son obligatorios.
-
-**Respuesta:**
-```json
-{
-  "mensaje": "Caballero creado exitosamente",
-  "caballero": {
-    "id": 13,
-    "nombre": "Nuevo Caballero",
-    "edad": 20,
-    "altura": 180.0,
-    "constelacion": "Escorpio",
-    "imagen_url": "https://example.com/imagen.jpg"
-  }
-}
-```
-
-### Eliminar Caballero
-```
-DELETE /api/caballeros/{id}
-```
-
-## 🧪 Pruebas con Postman
-
-1. Importa el archivo de colección (si está disponible)
-2. O usa los siguientes endpoints:
-
-### GET Request
-- **URL:** `https://tu-app.herokuapp.com/api/caballeros`
-- **Método:** GET
-- **Headers:** Ninguno requerido
-
-### POST Request
-- **URL:** `https://tu-app.herokuapp.com/api/caballeros`
-- **Método:** POST
-- **Headers:** 
-  - `Content-Type: application/json`
-- **Body (raw JSON):**
-```json
-{
-  "nombre": "Test Caballero",
-  "edad": 25,
-  "altura": 175.5,
   "constelacion": "Test",
-  "imagen_url": "https://example.com/test.jpg"
+  "imagen_url": "https://example.com/image.jpg"
 }
 ```
 
-## 📊 Estructura de Base de Datos
+#### Eliminar caballero
+```http
+DELETE /api/caballeros/:id
+```
+
+## 📊 Base de Datos
+
+### Tabla: caballeros
 
 ```sql
 CREATE TABLE caballeros (
-    id INTEGER PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    edad INTEGER,
-    altura FLOAT,
-    constelacion VARCHAR(100),
-    imagen_url VARCHAR(500) NOT NULL
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  edad INTEGER,
+  altura FLOAT,
+  constelacion VARCHAR(100),
+  imagen_url VARCHAR(500) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-## 📝 Personajes Incluidos
-
-La base de datos viene precargada con 12 personajes:
+### Personajes Incluidos
 
 1. Seiya de Pegaso
 2. Shiryu del Dragón
@@ -230,29 +244,107 @@ La base de datos viene precargada con 12 personajes:
 11. Dohko de Libra
 12. Milo de Escorpio
 
-## 📄 Archivos del Proyecto
+## 📁 Estructura del Proyecto
 
-- `app.py` - Aplicación principal Flask
-- `requirements.txt` - Dependencias del proyecto
-- `Procfile` - Configuración para Heroku
-- `runtime.txt` - Versión de Python
-- `static/swagger.json` - Especificación OpenAPI/Swagger
-- `README.md` - Este archivo
+```
+caballeros-zodiaco/
+├── backend/
+│   ├── config/
+│   │   └── database.js      # Configuración PostgreSQL
+│   ├── routes/
+│   │   └── caballeros.js    # Rutas API
+│   ├── server.js            # Servidor Express
+│   ├── package.json
+│   └── .env.example
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── App.js           # Componente principal
+│   │   ├── App.css          # Estilos
+│   │   ├── index.js
+│   │   └── index.css
+│   └── package.json
+├── package.json             # Root (scripts)
+├── README.md
+└── .gitignore
+```
+
+## 🧪 Testing
+
+### Probar API con Postman
+
+1. Importa la colección
+2. Configura base URL: `https://tu-app.railway.app`
+3. Ejecuta requests
+
+### Probar localmente
+
+```bash
+# Backend en puerto 3000
+curl http://localhost:3000/api/caballeros
+
+# Verificar frontend
+curl http://localhost:3001
+```
+
+## 🐛 Troubleshooting
+
+### Error: Cannot connect to database
+
+**Solución:**
+- Verifica `DATABASE_URL` en Railway
+- Asegúrate de que PostgreSQL esté activo
+- Revisa logs: `railway logs`
+
+### Frontend no carga datos
+
+**Solución:**
+- Verifica `REACT_APP_API_URL` está configurada
+- Asegúrate de que el backend esté corriendo
+- Revisa la consola del navegador
+
+### Puerto ya en uso
+
+**Solución:**
+- Cambia el puerto en `.env`
+- O mata el proceso: `lsof -ti:3000 | xargs kill`
+
+## 📸 Capturas
+
+- Dashboard de Railway con servicios activos
+- Swagger UI mostrando documentación
+- Frontend con los 12 caballeros
+- Formulario de creación funcionando
+- API respondiendo correctamente
+
+## 🎓 Próximos Pasos
+
+- [ ] Autenticación JWT
+- [ ] Búsqueda y filtros
+- [ ] Paginación
+- [ ] Tests automatizados
+- [ ] CI/CD pipeline
+- [ ] Docker containerization
+
+## 📄 Licencia
+
+MIT License - Libre para usar
+
+## 👨‍💻 Autor
+
+Desarrollado con ⚔️ y 🦁
 
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
+
 1. Fork el proyecto
-2. Crea tu branch (`git checkout -b feature/NuevaFuncionalidad`)
-3. Commit tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
-4. Push al branch (`git push origin feature/NuevaFuncionalidad`)
+2. Crea tu feature branch
+3. Commit tus cambios
+4. Push al branch
 5. Abre un Pull Request
 
-## 📧 Contacto
+---
 
-Para preguntas o soporte, contactar a través de los issues del repositorio.
-
-## 📜 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
-
+**¡Disfruta gestionando a tus Caballeros del Zodiaco!** ⚔️✨

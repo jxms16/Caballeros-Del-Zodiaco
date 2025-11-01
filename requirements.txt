@@ -1,6 +1,0 @@
-Flask==2.3.3
-Flask-SQLAlchemy==3.0.5
-Flask-Swagger-UI==4.11.1
-Werkzeug==2.3.7
-gunicorn==21.2.0
-
