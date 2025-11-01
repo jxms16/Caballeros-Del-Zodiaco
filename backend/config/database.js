@@ -1,13 +1,42 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
+// Configuración de conexión con manejo robusto
+const getPool = () => {
+  const databaseUrl = process.env.DATABASE_URL;
+  
+  if (!databaseUrl) {
+    console.error('⚠️ DATABASE_URL no está configurada');
+    console.error('En Railway, asegúrate de:');
+    console.error('1. Crear un servicio PostgreSQL');
+    console.error('2. La variable DATABASE_URL se configurará automáticamente');
+    throw new Error('DATABASE_URL no configurada');
+  }
+
+  // Parsear DATABASE_URL para configurar SSL correctamente
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  return new Pool({
+    connectionString: databaseUrl,
+    ssl: isProduction ? { rejectUnauthorized: false } : false,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 20000,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 0
+  });
+};
+
+const pool = getPool();
 
 // Inicializar base de datos
 async function init() {
   try {
+    console.log('🔌 Conectando a PostgreSQL...');
+    
+    // Test de conexión
+    await pool.query('SELECT NOW()');
+    console.log('✅ Conectado a PostgreSQL');
+
     // Crear tabla si no existe
     await pool.query(`
       CREATE TABLE IF NOT EXISTS caballeros (
@@ -30,9 +59,12 @@ async function init() {
     if (count === 0) {
       await insertInitialData();
       console.log('✅ Datos iniciales insertados');
+    } else {
+      console.log(`✅ Base de datos lista con ${count} caballeros`);
     }
   } catch (error) {
-    console.error('Error inicializando BD:', error);
+    console.error('❌ Error inicializando BD:', error.message);
+    console.error('Detalles:', error);
     throw error;
   }
 }
