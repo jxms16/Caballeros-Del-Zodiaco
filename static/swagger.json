@@ -1,0 +1,265 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Caballeros del Zodiaco",
+    "description": "Microservicios REST para gestionar información de los Caballeros del Zodiaco. Permite consultar e insertar datos de personajes incluyendo nombre, edad, altura, constelación e imagen.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Soporte API",
+      "email": "soporte@caballeros.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://tu-app.herokuapp.com",
+      "description": "Servidor de producción"
+    },
+    {
+      "url": "http://localhost:5000",
+      "description": "Servidor de desarrollo local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Consulta",
+      "description": "Endpoints para consultar información de caballeros"
+    },
+    {
+      "name": "Inserción",
+      "description": "Endpoints para insertar nuevos caballeros"
+    },
+    {
+      "name": "Eliminación",
+      "description": "Endpoints para eliminar caballeros"
+    }
+  ],
+  "paths": {
+    "/api/caballeros": {
+      "get": {
+        "tags": ["Consulta"],
+        "summary": "Obtener todos los caballeros",
+        "description": "Retorna la lista completa de todos los caballeros del zodíaco registrados en la base de datos",
+        "responses": {
+          "200": {
+            "description": "Lista de caballeros obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "example": 12,
+                      "description": "Total de caballeros en la base de datos"
+                    },
+                    "caballeros": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Caballero"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "total": 12,
+                  "caballeros": [
+                    {
+                      "id": 1,
+                      "nombre": "Seiya de Pegaso",
+                      "edad": 13,
+                      "altura": 165.0,
+                      "constelacion": "Pegaso",
+                      "imagen_url": "https://i.imgur.com/OvXjbxO.jpg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Inserción"],
+        "summary": "Insertar un nuevo caballero",
+        "description": "Crea un nuevo registro de caballero en la base de datos. Los campos nombre e imagen_url son obligatorios.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaballeroInput"
+              },
+              "example": {
+                "nombre": "Seiya de Pegaso",
+                "edad": 13,
+                "altura": 165.0,
+                "constelacion": "Pegaso",
+                "imagen_url": "https://i.imgur.com/OvXjbxO.jpg"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Caballero creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensaje": {
+                      "type": "string"
+                    },
+                    "caballero": {
+                      "$ref": "#/components/schemas/Caballero"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o campos obligatorios faltantes"
+          }
+        }
+      }
+    },
+    "/api/caballeros/{id}": {
+      "get": {
+        "tags": ["Consulta"],
+        "summary": "Obtener caballero por ID",
+        "description": "Retorna la información de un caballero específico identificado por su ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID único del caballero",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caballero encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caballero"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Caballero no encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Eliminación"],
+        "summary": "Eliminar caballero por ID",
+        "description": "Elimina un caballero de la base de datos identificado por su ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID único del caballero a eliminar",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caballero eliminado exitosamente"
+          },
+          "404": {
+            "description": "Caballero no encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Caballero": {
+        "type": "object",
+        "required": ["id", "nombre", "imagen_url"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID único del caballero",
+            "example": 1
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre completo del caballero",
+            "example": "Seiya de Pegaso"
+          },
+          "edad": {
+            "type": "integer",
+            "description": "Edad del caballero",
+            "example": 13
+          },
+          "altura": {
+            "type": "number",
+            "format": "float",
+            "description": "Altura en centímetros",
+            "example": 165.0
+          },
+          "constelacion": {
+            "type": "string",
+            "description": "Nombre de la constelación",
+            "example": "Pegaso"
+          },
+          "imagen_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL de la imagen del personaje",
+            "example": "https://i.imgur.com/OvXjbxO.jpg"
+          }
+        }
+      },
+      "CaballeroInput": {
+        "type": "object",
+        "required": ["nombre", "imagen_url"],
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "description": "Nombre completo del caballero",
+            "example": "Seiya de Pegaso"
+          },
+          "edad": {
+            "type": "integer",
+            "description": "Edad del caballero",
+            "example": 13
+          },
+          "altura": {
+            "type": "number",
+            "format": "float",
+            "description": "Altura en centímetros",
+            "example": 165.0
+          },
+          "constelacion": {
+            "type": "string",
+            "description": "Nombre de la constelación",
+            "example": "Pegaso"
+          },
+          "imagen_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL de la imagen del personaje (obligatorio)",
+            "example": "https://i.imgur.com/OvXjbxO.jpg"
+          }
+        }
+      }
+    }
+  }
+}
+
