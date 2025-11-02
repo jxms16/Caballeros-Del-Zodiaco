@@ -77,17 +77,17 @@ async function insertInitialData() {
       edad: 13,
       altura: 165.0,
       constelacion: 'Pegaso',
-      imagen_url: 'https://i.imgur.com/OvXjbxO.jpg'
+      imagen_url: 'https://pin.it/1ATJ8Qy7r'
     },
     {
       nombre: 'Shiryu del Dragón',
       edad: 14,
       altura: 172.0,
       constelacion: 'Dragón',
-      imagen_url: 'https://i.imgur.com/Rtc6pSd.jpg'
+      imagen_url: 'https://pin.it/4GqqKtrZb'
     },
     {
-      nombre: 'Hyoga del Cisne',
+      nombre: 'https://pin.it/2ypHkDrR6',
       edad: 14,
       altura: 173.0,
       constelacion: 'Cisne',
