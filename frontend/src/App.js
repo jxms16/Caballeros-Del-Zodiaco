@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+// Usar la misma URL del servidor en producción, solo cambiar en desarrollo
+const getApiUrl = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return ''; // Mismo dominio
+  }
+  return process.env.REACT_APP_API_URL || 'http://localhost:3000';
+};
+
+const API_URL = getApiUrl();
 
 function App() {
   const [caballeros, setCaballeros] = useState([]);

@@ -56,22 +56,17 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
 
-// Rutas
+// Servir archivos estáticos del frontend
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Rutas API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/caballeros', caballerosRoutes);
 
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Información de la API
- *     tags: [Info]
- *     responses:
- *       200:
- *         description: Información de la API
- */
-app.get('/', (req, res) => {
+// Ruta API info
+app.get('/api', (req, res) => {
   res.json({
     mensaje: 'API de Caballeros del Zodiaco',
     version: '1.0.0',
@@ -84,7 +79,10 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api/caballeros', caballerosRoutes);
+// Catch-all handler para servir el frontend React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+});
 
 // Inicializar base de datos
 async function initApp() {
