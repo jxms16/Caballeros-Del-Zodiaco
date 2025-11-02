@@ -106,6 +106,7 @@ async function insertInitialData() {
       altura: 175.0,
       constelacion: 'Fénix',
       imagen_url: 'https://i.pinimg.com/736x/d8/75/85/d875853c6f5c6d6136050ec2e46dde9d.jpg'
+    },
     {
       nombre: 'Aldebarán de Tauro',
       edad: 20,
