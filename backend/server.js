@@ -25,8 +25,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.SWAGGER_SERVER_URL || 'https://tu-app.railway.app',
-        description: 'Servidor de producción'
+        url: '/',
+        description: 'Servidor principal (relativo)'
       }
     ],
     tags: [
