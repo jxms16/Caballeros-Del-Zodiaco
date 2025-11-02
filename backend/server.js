@@ -25,10 +25,6 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Servidor de desarrollo'
-      },
-      {
         url: process.env.SWAGGER_SERVER_URL || 'https://tu-app.railway.app',
         description: 'Servidor de producción'
       }

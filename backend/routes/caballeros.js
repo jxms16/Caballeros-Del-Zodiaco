@@ -18,10 +18,20 @@ const db = require('../config/database');
  *               properties:
  *                 total:
  *                   type: integer
+ *                   example: 12
  *                 caballeros:
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Caballero'
+ *             example:
+ *               total: 12
+ *               caballeros:
+ *                 - id: 1
+ *                   nombre: "Seiya de Pegaso"
+ *                   edad: 13
+ *                   altura: 165.0
+ *                   constelacion: "Pegaso"
+ *                   imagen_url: "https://example.com/seiya.jpg"
  */
 router.get('/', async (req, res) => {
   try {
@@ -87,11 +97,32 @@ router.get('/:id', async (req, res) => {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CaballeroInput'
+ *           example:
+ *             nombre: "Mu de Aries"
+ *             edad: 20
+ *             altura: 185
+ *             constelacion: "Aries"
+ *             imagen_url: "https://example.com/mu.jpg"
  *     responses:
  *       201:
  *         description: Caballero creado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: "Caballero creado exitosamente"
+ *               caballero:
+ *                 id: 13
+ *                 nombre: "Mu de Aries"
+ *                 edad: 20
+ *                 altura: 185
+ *                 constelacion: "Aries"
+ *                 imagen_url: "https://example.com/mu.jpg"
  *       400:
  *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Los campos nombre e imagen_url son obligatorios"
  */
 router.post('/', async (req, res) => {
   try {
