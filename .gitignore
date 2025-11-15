@@ -51,3 +51,7 @@ frontend/node_modules/
 frontend/build/
 frontend/.env
 
+# Python backend
+hxh_backend/.env
+hxh_backend/__pycache__/
+

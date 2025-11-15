@@ -7,6 +7,32 @@
   z-index: 1;
 }
 
+.project-switch {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.project-btn {
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project-btn.active {
+  background: linear-gradient(45deg, #ffce00, #ff6f00);
+  color: #1b1135;
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(255, 174, 0, 0.4);
+}
+
 .header {
   text-align: center;
   color: white;
@@ -16,6 +42,11 @@
   backdrop-filter: blur(10px);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.hunters-header {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.4);
 }
 
 .header h1 {
@@ -172,6 +203,61 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
   margin-bottom: 40px;
+}
+
+.hunters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.hunter-card {
+  background: rgba(18, 25, 56, 0.9);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(13, 19, 43, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hunter-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+.hunter-image-container {
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+}
+
+.hunter-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hunter-card:hover .hunter-image-container img {
+  transform: scale(1.08);
+}
+
+.hunter-info {
+  padding: 20px;
+  color: white;
+}
+
+.hunter-info h3 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.hunter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .caballero-card {

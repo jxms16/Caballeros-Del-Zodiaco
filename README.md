@@ -12,6 +12,7 @@ Aplicación fullstack moderna para gestionar información de los Caballeros del 
 - ✅ **CRUD completo**: Crear, Leer, Actualizar, Eliminar
 - ✅ **Responsive design** para móvil y desktop
 - ✅ **Despliegue automático** en Railway
+- ✅ **Switch** entre Caballeros del Zodiaco y Hunter x Hunter (FastAPI + MongoDB)
 
 ## 🛠️ Stack Tecnológico
 
@@ -29,6 +30,11 @@ Aplicación fullstack moderna para gestionar información de los Caballeros del 
 ### DevOps
 - **Railway** - Hosting y base de datos
 - **Git** - Control de versiones
+
+## 🧿 Proyectos Disponibles
+- **Caballeros del Zodiaco:** Node.js + Express + PostgreSQL + Swagger
+- **Hunter x Hunter:** FastAPI + MongoDB + Swagger (nuevo backend en Python)
+- Un **switch** en el frontend permite seleccionar qué catálogo ver y administrar
 
 ## 📋 Requisitos Previos
 
@@ -66,6 +72,12 @@ cd frontend
 npm install
 ```
 
+Backend Hunter x Hunter (Python):
+```bash
+cd hxh_backend
+pip install -r requirements.txt
+```
+
 ### 3. Configurar variables de entorno
 
 Backend - crea `backend/.env`:
@@ -73,11 +85,20 @@ Backend - crea `backend/.env`:
 PORT=3000
 DATABASE_URL=postgresql://usuario:password@localhost:5432/caballeros
 NODE_ENV=development
+HXH_SERVICE_URL=http://localhost:8000
 ```
 
 Frontend - crea `frontend/.env`:
 ```env
 REACT_APP_API_URL=http://localhost:3000
+REACT_APP_HXH_API_URL=http://localhost:8000/api-hxh
+```
+
+Backend Hunter x Hunter (FastAPI) - crea `hxh_backend/.env`:
+```env
+MONGO_URL=mongodb://usuario:password@localhost:27017
+MONGO_DB=hunterxhunter_db
+PORT=8000
 ```
 
 ### 4. Ejecutar aplicación
@@ -97,11 +118,19 @@ npm run dev:backend
 npm run dev:frontend
 ```
 
+**Backend Hunter x Hunter (FastAPI)**
+```bash
+cd hxh_backend
+uvicorn main:app --reload
+```
+
 ### 5. Acceder a la aplicación
 
 - **Frontend:** http://localhost:3000
 - **API:** http://localhost:3000/api/caballeros
 - **Swagger:** http://localhost:3000/api-docs
+- **Hunter x Hunter API:** http://localhost:8000/api-hxh/hunters
+- **Swagger HXH:** http://localhost:8000/api-hxh/docs
 
 ## 🌐 Despliegue en Railway
 
@@ -155,6 +184,23 @@ SWAGGER_SERVER_URL=https://tu-app.railway.app
 ### Paso 6: Verificar
 
 Tu app estará en: `https://tu-app.railway.app`
+
+## 🐜 Backend Hunter x Hunter (FastAPI + MongoDB)
+1. En Railway crea **otro servicio** (New → Deploy from GitHub repo) seleccionando la carpeta `hxh_backend/`.
+2. Crea o reutiliza un servicio **MongoDB** y copia su cadena `MONGO_URL`.
+3. Variables en el servicio FastAPI:
+   ```
+   MONGO_URL=<cadena de Mongo>
+   MONGO_DB=hunterxhunter_db
+   PORT=8000
+   ```
+4. Comando de inicio: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Copia la URL pública del servicio (por ejemplo `https://hunter-api.up.railway.app`)
+6. En el servicio Node.js agrega la variable:
+   ```
+   HXH_SERVICE_URL=https://hunter-api.up.railway.app
+   ```
+   Con esto, cualquier request a `/api-hxh/*` será redirigida automáticamente al backend de FastAPI.
 
 ## 📚 API Endpoints
 
@@ -212,6 +258,37 @@ Content-Type: application/json
 DELETE /api/caballeros/:id
 ```
 
+### Hunter x Hunter API (FastAPI + MongoDB)
+
+#### Swagger
+```
+GET /api-hxh/docs
+```
+
+#### Obtener cazadores
+```http
+GET /api-hxh/hunters
+```
+
+#### Crear cazador
+```http
+POST /api-hxh/hunters
+Content-Type: application/json
+
+{
+  "nombre": "Gon Freecss",
+  "edad": 12,
+  "nen_tipo": "Refuerzo",
+  "afiliacion": "Cazador",
+  "imagen_url": "https://example.com/gon.jpg"
+}
+```
+
+#### Eliminar cazador
+```http
+DELETE /api-hxh/hunters/{id}
+```
+
 ## 📊 Base de Datos
 
 ### Tabla: caballeros
@@ -256,6 +333,10 @@ caballeros-zodiaco/
 │   ├── server.js            # Servidor Express
 │   ├── package.json
 │   └── .env.example
+├── hxh_backend/
+│   ├── main.py               # FastAPI + MongoDB
+│   ├── requirements.txt
+│   └── README.md
 ├── frontend/
 │   ├── public/
 │   │   └── index.html
@@ -304,6 +385,15 @@ curl http://localhost:3001
 - Asegúrate de que el backend esté corriendo
 - Revisa la consola del navegador
 
+## 🔀 Frontend Switch
+- Selector superior para elegir entre **Caballeros del Zodiaco** y **Hunter x Hunter**
+- Cada vista tiene su propio formulario y estadísticas
+- Caballeros consume `/api/caballeros`
+- Hunter x Hunter consume `/api-hxh/hunters` (proxificado hacia FastAPI)
+- Variables clave:
+  - `frontend/.env` → `REACT_APP_API_URL`, `REACT_APP_HXH_API_URL`
+  - `backend/.env` → `HXH_SERVICE_URL`
+
 ### Puerto ya en uso
 
 **Solución:**
@@ -315,6 +405,7 @@ curl http://localhost:3001
 - Dashboard de Railway con servicios activos
 - Swagger UI mostrando documentación
 - Frontend con los 12 caballeros
+- Frontend mostrando la vista de Hunter x Hunter
 - Formulario de creación funcionando
 - API respondiendo correctamente
 

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config();
 
 const db = require('./config/database');
@@ -60,6 +61,16 @@ app.use(express.static(path.join(__dirname, '../frontend/build')));
 // Rutas API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/caballeros', caballerosRoutes);
+
+if (process.env.HXH_SERVICE_URL) {
+  app.use(
+    '/api-hxh',
+    createProxyMiddleware({
+      target: process.env.HXH_SERVICE_URL,
+      changeOrigin: true,
+    })
+  );
+}
 
 // Ruta API info
 app.get('/api', (req, res) => {
