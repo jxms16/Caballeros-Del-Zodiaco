@@ -186,6 +186,43 @@ router.delete('/:id', async (req, res) => {
 
 /**
  * @swagger
+ * /api/caballeros/reset:
+ *   post:
+ *     summary: Resetear todos los caballeros a los valores por defecto
+ *     tags: [Inserción]
+ *     responses:
+ *       200:
+ *         description: Caballeros restaurados exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: "Caballeros restaurados exitosamente"
+ *               total: 12
+ */
+router.post('/reset', async (req, res) => {
+  try {
+    // Eliminar todos los caballeros
+    await db.pool.query('DELETE FROM caballeros');
+    
+    // Restaurar los caballeros por defecto
+    await db.insertInitialData();
+    
+    // Obtener el total de caballeros restaurados
+    const countResult = await db.pool.query('SELECT COUNT(*) FROM caballeros');
+    const total = parseInt(countResult.rows[0].count);
+    
+    res.json({ 
+      mensaje: 'Caballeros restaurados exitosamente',
+      total: total
+    });
+  } catch (error) {
+    console.error('Error reseteando caballeros:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Caballero:

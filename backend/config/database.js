@@ -168,6 +168,7 @@ async function insertInitialData() {
 
 module.exports = {
   pool,
-  init
+  init,
+  insertInitialData
 };
 

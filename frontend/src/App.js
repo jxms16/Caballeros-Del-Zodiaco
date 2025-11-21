@@ -72,6 +72,18 @@ function App() {
     }
   };
 
+  const handleReset = async () => {
+    if (window.confirm('¿Estás seguro de restaurar los caballeros por defecto? Esto eliminará todos los caballeros actuales.')) {
+      try {
+        await axios.post(`${API_URL}/api/caballeros/reset`);
+        fetchCaballeros();
+        alert('✅ Caballeros restaurados exitosamente');
+      } catch (err) {
+        alert('Error al restaurar caballeros: ' + (err.response?.data?.error || err.message));
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="app">
@@ -82,18 +94,35 @@ function App() {
 
   return (
     <div className="app">
+      <nav className="navigation">
+        <span className="nav-label">Otros proyectos:</span>
+        <a 
+          href="https://front-hxh-production.up.railway.app/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="nav-link"
+        >
+          🎯 Hunter x Hunter
+        </a>
+      </nav>
       <header className="header">
-        <h1>⚔️ Caballeros del Zodiaco 🦁</h1>
-        <p>Los 12 caballeros dorados de Atena</p>
+        <div className="header-content">
+          <p className="header-subtitle">Microservicio independiente</p>
+          <h1>⚔️ Caballeros del Zodiaco 🦁</h1>
+          <p>Administración de caballeros con Express + PostgreSQL</p>
+        </div>
         <div className="header-buttons">
           <button 
             className="btn btn-primary" 
             onClick={() => setShowForm(!showForm)}
           >
-            {showForm ? '❌ Cancelar' : '➕ Agregar Caballero'}
+            {showForm ? '❌ Cancelar' : '➕ Nuevo Caballero'}
           </button>
           <button className="btn btn-secondary" onClick={fetchCaballeros}>
             🔄 Actualizar
+          </button>
+          <button className="btn btn-reset" onClick={handleReset}>
+            🔄 Resetear
           </button>
         </div>
       </header>
